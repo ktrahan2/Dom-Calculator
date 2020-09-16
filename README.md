@@ -19,7 +19,7 @@ More specifically, the app should allow a user to do the following.
 
 ### Bonus 2
 
-Try to evaluate the expression without using the `eval()` function.
+<!-- Try to evaluate the expression without using the `eval()` function. -->
 
 ### Bonus 3
 

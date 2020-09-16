@@ -10,8 +10,7 @@ function clearScreen() {
 }
 
 function failedFormat() {
-    if (operatorArray.includes(findLastIndex()) && operatorArray.includes(event.target.textContent)) {
-        clearScreen()
+    if (operatorArray.includes(findFirstIndex()) || operatorArray.includes(findLastIndex()) && operatorArray.includes(event.target.textContent)) {
         $screen.textContent = "Error"
     }
 }
@@ -21,43 +20,62 @@ function findLastIndex() {
     let finalIndex = array[array.length - 1]
     return finalIndex
 }   
+function findFirstIndex() {
+    let array = $screen.textContent.split("")
+    let firstIndex = array[0]
+    return firstIndex
+}
 
 function evaluateScreen() {
     if ($screen.textContent.includes('/0')) {
         $screen.textContent = "Error"
     }
     else {
-        $screen.textContent = eval($screen.textContent)
-        // console.log($screen.textContent.split("")), returns array, but
-        //then need to look for index thats an operator???
-        
+        // $screen.textContent = eval($screen.textContent)
+        let array = $screen.textContent.match(/(\d+)([-|*|+|/])(\d+)/)
+        if (array[2] == '+') {
+            $screen.textContent = array[1] + array[3]
+        } 
+        else if (array[2]  == '-') {
+            $screen.textContent = array[1] - array[3]
+        } 
+        else if (array[2] == '/') {
+            $screen.textContent = array[1] / array[3]
+        } 
+        else if (array[2] == '*') {
+            $screen.textContent = array[1] * array[3]
+        } 
     }
 }
-
+failedFormat()
 $buttonsContainer.addEventListener('click', event => {
-    if ($screen.textContent.includes('Error')) {
-        if (event.target == $clearButton) {
-            clearScreen()
-        }   
-    }
-    else {
+    if (event.target.tagName === 'SPAN') {
         failedFormat()    
-        if (event.target == $clearButton) {
-            clearScreen()
-        }
-        else if (event.target == $equals) {
-            evaluateScreen()
-        }
-        else if (event.target.textContent == '÷') {
-            $screen.append('/')
-        }
-        else if (event.target.textContent == 'x') {
-            $screen.append('*')
+        if ($screen.textContent.includes('Error')) {
+            if (event.target == $clearButton) {
+                clearScreen()
+            }   
         }
         else {
-            $screen.append(event.target.textContent)
+            if (event.target == $clearButton) {
+                clearScreen()
+            }
+            else if (event.target == $equals) {
+                evaluateScreen()
+            }
+            else if (event.target.textContent == '÷') {
+                $screen.append('/')
+            }
+            else if (event.target.textContent == 'x') {
+                $screen.append('*')
+            }
+            else {
+                $screen.append(event.target.textContent)
+            }
         }
     }
 })
+
+
 
 
