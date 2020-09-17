@@ -34,7 +34,7 @@ function evaluateScreen() {
         // $screen.textContent = eval($screen.textContent)
         let array = $screen.textContent.match(/(\d+)([-|*|+|/])(\d+)/)
         if (array[2] == '+') {
-            $screen.textContent = array[1] + array[3]
+            $screen.textContent = +array[1] + +array[3]
         } 
         else if (array[2]  == '-') {
             $screen.textContent = array[1] - array[3]
